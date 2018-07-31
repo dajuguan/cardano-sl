@@ -67,6 +67,7 @@ library
                        Cardano.Wallet.Kernel.Accounts
                        Cardano.Wallet.Kernel.Addresses
                        Cardano.Wallet.Kernel.BIP39
+                       Cardano.Wallet.Kernel.ChainState
                        Cardano.Wallet.Kernel.CoinSelection
                        Cardano.Wallet.Kernel.CoinSelection.FromGeneric
                        Cardano.Wallet.Kernel.CoinSelection.Generic

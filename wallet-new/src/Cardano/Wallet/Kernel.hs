@@ -124,7 +124,7 @@ initPassiveWallet logMessage keystore db rocksDB = do
 -- called when the node is initialized (when run in the node proper).
 init :: PassiveWallet -> IO ()
 init PassiveWallet{..} = do
-    tip <- withMonadDBRead _walletRocksDB $ getTipHeader
+    tip <- withMonadDBRead _walletRocksDB $ \_lock -> getTipHeader
     _walletLogMessage Info $ "Passive Wallet kernel initialized. Current tip: "
                           <> pretty tip
 
