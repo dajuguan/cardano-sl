@@ -51,6 +51,7 @@ import           Cardano.Wallet.Kernel.PrefilterTx (PrefilteredBlock (..),
                      prefilterBlock)
 import           Cardano.Wallet.Kernel.Types (WalletId (..))
 
+import           Cardano.Wallet.Kernel.ChainState (getChainStateRestoration)
 import           Cardano.Wallet.Kernel.DB.AcidState (ApplyBlock (..),
                      CancelPending (..), DB, NewPending (..), NewPendingError,
                      ObservableRollbackUseInTestsOnly (..), Snapshot (..),
@@ -59,8 +60,8 @@ import           Cardano.Wallet.Kernel.DB.HdWallet
 import           Cardano.Wallet.Kernel.DB.InDb
 import           Cardano.Wallet.Kernel.DB.Resolved (ResolvedBlock)
 import           Cardano.Wallet.Kernel.DB.Spec (singletonPending)
-import           Cardano.Wallet.Kernel.MonadDBReadAdaptor (MonadDBReadAdaptor,
-                     withMonadDBRead)
+import           Cardano.Wallet.Kernel.MonadDBReadAdaptor (LockContext (..),
+                     MonadDBReadAdaptor, withMonadDBRead)
 import           Cardano.Wallet.Kernel.Submission (Cancelled, WalletSubmission,
                      addPending, defaultResubmitFunction, exponentialBackoff,
                      newWalletSubmission, tick)
@@ -125,6 +126,8 @@ initPassiveWallet logMessage keystore db rocksDB = do
 init :: PassiveWallet -> IO ()
 init PassiveWallet{..} = do
     tip <- withMonadDBRead _walletRocksDB $ \_lock -> getTipHeader
+    csr <- getChainStateRestoration _walletRocksDB NotYetLocked
+    writeFile "/tmp/csr.txt" (pretty csr)
     _walletLogMessage Info $ "Passive Wallet kernel initialized. Current tip: "
                           <> pretty tip
 
