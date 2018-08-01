@@ -9,22 +9,19 @@ import           Data.Coerce (coerce)
 import           Data.Time.Units (Second)
 import           Formatting (build, sformat)
 
-import qualified Cardano.Wallet.Kernel as Kernel
-import qualified Cardano.Wallet.Kernel.Wallets as Kernel
-
-import qualified Cardano.Wallet.Kernel.DB.HdWallet as HD
-import           Cardano.Wallet.Kernel.DB.InDb (InDb (..), fromDb)
-import           Cardano.Wallet.WalletLayer.ExecutionTimeLimit
-                     (limitExecutionTimeTo)
-import           Cardano.Wallet.WalletLayer.Types (CreateWalletError (..))
-
 import           Pos.Core (mkCoin)
-
-import qualified Cardano.Wallet.API.V1.Types as V1
-import           Cardano.Wallet.Kernel.Util (getCurrentTimestamp)
 import           Pos.Crypto.Signing
 
 import           Cardano.Wallet.API.V1.Types (V1 (..))
+import qualified Cardano.Wallet.API.V1.Types as V1
+import qualified Cardano.Wallet.Kernel as Kernel
+import qualified Cardano.Wallet.Kernel.DB.HdWallet as HD
+import           Cardano.Wallet.Kernel.DB.InDb (InDb (..), fromDb)
+import           Cardano.Wallet.Kernel.Util.Core (getCurrentTimestamp)
+import qualified Cardano.Wallet.Kernel.Wallets as Kernel
+import           Cardano.Wallet.WalletLayer.ExecutionTimeLimit
+                     (limitExecutionTimeTo)
+import           Cardano.Wallet.WalletLayer.Types (CreateWalletError (..))
 
 createWallet :: MonadIO m
              => Kernel.PassiveWallet

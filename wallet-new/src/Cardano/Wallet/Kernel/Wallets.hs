@@ -33,7 +33,7 @@ import           Cardano.Wallet.Kernel.Internal (PassiveWallet, walletKeystore,
 import qualified Cardano.Wallet.Kernel.Keystore as Keystore
 import           Cardano.Wallet.Kernel.PrefilterTx (prefilterUtxo)
 import           Cardano.Wallet.Kernel.Types (WalletId (..))
-import           Cardano.Wallet.Kernel.Util (getCurrentTimestamp)
+import           Cardano.Wallet.Kernel.Util.Core (getCurrentTimestamp)
 
 import           Test.QuickCheck (Arbitrary (..), oneof)
 
@@ -141,4 +141,3 @@ createWalletHdRnd pw hasSpendingPassword name assuranceLevel esk utxo = do
         hdSpendingPassword created =
             if hasSpendingPassword then HD.HasSpendingPassword created
                                    else HD.NoSpendingPassword
-

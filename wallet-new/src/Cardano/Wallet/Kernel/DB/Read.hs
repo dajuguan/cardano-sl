@@ -23,7 +23,7 @@ import           Cardano.Wallet.Kernel.DB.HdWallet (HdAccountId, HdAddress,
                      HdWallets)
 import           Cardano.Wallet.Kernel.DB.HdWallet.Read (HdQueryErr,
                      readAddressesByAccountId, readHdAccountCurrentCheckpoint)
-import           Cardano.Wallet.Kernel.DB.Spec (checkpointAddressMeta)
+import           Cardano.Wallet.Kernel.DB.Spec (cpAddressMeta)
 import qualified Cardano.Wallet.Kernel.DB.Spec.Read as Spec
 import           Cardano.Wallet.Kernel.DB.Util.IxSet (IxSet)
 
@@ -85,6 +85,6 @@ hdWallets snapshot = snapshot ^. dbHdWallets
 -- | Reads the given 'Address' in the 'HdAccount' current checkpoint.
 readAddressMeta :: DB -> HdAccountId -> Address -> AddressMeta
 readAddressMeta snapshot accountId cardanoAddress
-    = view (checkpointAddressMeta cardanoAddress) (walletQuery' snapshot checkpoint)
+    = view (cpAddressMeta cardanoAddress) (walletQuery' snapshot checkpoint)
     where
         checkpoint = readHdAccountCurrentCheckpoint accountId
