@@ -19,7 +19,9 @@ handlers pwl =  newWallet pwl
            :<|> deleteWallet
            :<|> getWallet
            :<|> updateWallet
-
+           :<|> checkExternalWallet
+           :<|> newExternalWallet
+           :<|> deleteExternalWallet
 
 -- | Creates a new or restores an existing @wallet@ given a 'NewWallet' payload.
 -- Returns to the client the representation of the created or restored
@@ -61,3 +63,12 @@ updateWallet :: WalletId
              -> WalletUpdate
              -> Handler (WalletResponse Wallet)
 updateWallet _wid _walletUpdate = error "Unimplemented. See CBR-227."
+
+checkExternalWallet :: Text -> Handler (WalletResponse WalletAndTxHistory)
+checkExternalWallet _encodedRootPK = error ""
+
+newExternalWallet :: NewExternalWallet -> Handler (WalletResponse Wallet)
+newExternalWallet _newExtWallet = error ""
+
+deleteExternalWallet :: Text -> Handler NoContent
+deleteExternalWallet _encodedRootPK = error ""

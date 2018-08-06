@@ -17724,7 +17724,6 @@ license = stdenv.lib.licenses.mit;
 , cardano-sl
 , cardano-sl-binary
 , cardano-sl-binary-test
-, cardano-sl-block
 , cardano-sl-chain
 , cardano-sl-client
 , cardano-sl-core
@@ -17838,7 +17837,6 @@ bytestring
 cardano-crypto
 cardano-sl
 cardano-sl-binary
-cardano-sl-block
 cardano-sl-chain
 cardano-sl-client
 cardano-sl-core
@@ -17915,7 +17913,9 @@ aeson-diff
 aeson-pretty
 base
 bytestring
+cardano-crypto
 cardano-sl
+cardano-sl-binary
 cardano-sl-chain
 cardano-sl-core
 cardano-sl-crypto
@@ -17936,6 +17936,7 @@ mtl
 optparse-applicative
 pretty-show
 QuickCheck
+serokell-util
 servant
 servant-client
 servant-quickcheck

@@ -248,7 +248,7 @@ prefilterBlock wid esk block
     = Map.fromList $ map (mkPrefBlock slotId inpAll outAll) (Set.toList accountIds)
   where
     wdc :: WalletDecrCredentials
-    wdc = eskToWalletDecrCredentials esk
+    wdc = keyToWalletDecrCredentials $ Right esk
     wKey = (wid, wdc)
 
     inps :: [Map HdAccountId (Set TxIn)]
