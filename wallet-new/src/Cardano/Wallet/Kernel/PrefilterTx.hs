@@ -31,7 +31,7 @@ import           Pos.Wallet.Web.State.Storage (WAddressMeta (..))
 import           Pos.Wallet.Web.Tracking.Decrypt (WalletDecrCredentials,
                      eskToWalletDecrCredentials, selectOwnAddresses)
 
-import           Cardano.Wallet.Kernel.ChainState (ChainBrief(..))
+import           Cardano.Wallet.Kernel.ChainState (ChainBrief (..))
 import           Cardano.Wallet.Kernel.DB.BlockMeta
 import           Cardano.Wallet.Kernel.DB.HdWallet
 import           Cardano.Wallet.Kernel.DB.InDb (InDb (..), fromDb)

@@ -14,9 +14,9 @@ module Cardano.Wallet.Kernel.Util.StrictStateT (
 
 import           Universum
 
+import           Conduit
 import           Control.Monad.Except (MonadError)
 import           Crypto.Random (MonadRandom (..))
-import           Conduit
 import           Data.Conduit.Internal (ConduitT (..), Pipe (..))
 
 -- | Drop-in replacement for 'StateT' that updates the state strictly.

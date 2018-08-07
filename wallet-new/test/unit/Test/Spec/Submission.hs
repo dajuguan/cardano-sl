@@ -14,7 +14,7 @@ import           Cardano.Wallet.Kernel.DB.HdWallet (HdAccountId (..),
 import           Cardano.Wallet.Kernel.DB.Spec.Pending (Pending)
 import qualified Cardano.Wallet.Kernel.DB.Spec.Pending as Pending
 import           Cardano.Wallet.Kernel.Submission
-import           Control.Lens (at, anon, to)
+import           Control.Lens (anon, at, to)
 import qualified Data.ByteString as BS
 import qualified Data.List as List
 import qualified Data.List.NonEmpty as NonEmpty

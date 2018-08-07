@@ -50,7 +50,7 @@ module Cardano.Wallet.Kernel.Submission (
 
 import           Universum hiding (elems)
 
-import           Control.Lens (Getter, at, anon, to)
+import           Control.Lens (Getter, anon, at, to)
 import           Control.Lens.TH
 import           Data.IntMap.Strict (IntMap)
 import qualified Data.IntMap.Strict as IntMap

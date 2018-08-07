@@ -10,7 +10,7 @@ module InputSelection.Evaluation (
 import           Universum hiding (Ratio (..))
 
 import           Conduit
-import           Crypto.Random (MonadRandom(..))
+import           Crypto.Random (MonadRandom (..))
 import qualified Data.Map.Strict as Map
 import           Data.Time
 import           Formatting (build, sformat, (%))

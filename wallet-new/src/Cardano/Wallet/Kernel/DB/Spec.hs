@@ -32,7 +32,7 @@ module Cardano.Wallet.Kernel.DB.Spec (
   , currentAddressMeta
   ) where
 
-import           Universum hiding (elems)
+import           Universum
 
 import           Control.Lens (from, _Wrapped)
 import           Control.Lens.TH (makeLenses)

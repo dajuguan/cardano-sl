@@ -64,7 +64,7 @@ data PassiveWallet = PassiveWallet {
       --
       -- The primary function of this is wallet restoration, where the wallet's
       -- own DB /cannot/ be consulted.
-    , _walletNode    :: NodeStateAdaptor IO
+    , _walletNode       :: NodeStateAdaptor IO
     }
 
 makeLenses ''PassiveWallet

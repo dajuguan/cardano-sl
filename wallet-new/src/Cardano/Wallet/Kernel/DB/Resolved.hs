@@ -57,7 +57,7 @@ data ResolvedTx = ResolvedTx {
 -- represented here.
 data ResolvedBlock = ResolvedBlock {
       -- | Transactions in the block
-      _rbTxs    :: ![ResolvedTx]
+      _rbTxs   :: ![ResolvedTx]
 
       -- | The chain state after applying this block
       --
@@ -65,7 +65,7 @@ data ResolvedBlock = ResolvedBlock {
       -- just applied.
       --
       -- TODO: Ideally we'd have an assertion somehow checking that.
-    , _rbBrief  :: !ChainBrief
+    , _rbBrief :: !ChainBrief
     }
 
 makeLenses ''ResolvedTx
