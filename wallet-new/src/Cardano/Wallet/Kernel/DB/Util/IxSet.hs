@@ -100,7 +100,7 @@ newtype IxSet a = WrapIxSet {
     }
 
 instance Show a => Show (IxSet a) where
-    show = show . map unwrapOrdByPrimKey . IxSet.toList . unwrapIxSet
+    show = show . toList
 
 -- | Evidence that the specified indices are in fact available
 type Indexable a = IxSet.Indexable (PrimKey a ': IndicesOf a) (OrdByPrimKey a)
@@ -154,7 +154,7 @@ instance (HasPrimKey a, Indexable a) => Lens.At (IxSet a) where
       upd (Just a) = WrapIxSet $ IxSet.updateIx pk (WrapOrdByPrimKey a) s
 
 instance Foldable IxSet where
-    foldr f e = Data.Foldable.foldr f e . Data.Foldable.toList
+    foldr f e = Data.Foldable.foldr f e . toList
 
 {-------------------------------------------------------------------------------
   Queries
@@ -219,7 +219,7 @@ omap f =
 -- NOTE: This rebuilds the entire 'IxSet'. Potentially expensive.
 otraverse :: (Applicative f, Indexable a)
           => (a -> f a) -> IxSet a -> f (IxSet a)
-otraverse f = fmap fromList . Data.Traversable.traverse f . Data.Foldable.toList
+otraverse f = fmap fromList . Data.Traversable.traverse f . toList
 
 emptyIxSet :: forall a.
               Indexable a
@@ -246,13 +246,7 @@ instance (Indexable a, Arbitrary a) => Arbitrary (IxSet a) where
     arbitrary = fromList <$> arbitrary
 
 instance Buildable a => Buildable (IxSet a) where
-    build = bprint (listJsonIndent 4) . map unwrapOrdByPrimKey
-                                      . IxSet.toList
-                                      . unwrapIxSet
+    build = bprint (listJsonIndent 4) . toList
 
 instance BuildableSafe a => Buildable (SecureLog (IxSet a)) where
-    build = bprint (buildSafeList secure) . map unwrapOrdByPrimKey
-                                          . IxSet.toList
-                                          . unwrapIxSet
-                                          . getSecureLog
-
+    build = bprint (buildSafeList secure) . toList . getSecureLog
