@@ -25,8 +25,8 @@ import           Cardano.Wallet.API.V1.Migration.Types ()
 import           Cardano.Wallet.API.V1.Types (Account, AccountIndex,
                      AccountUpdate, Address, BackupPhrase (..),
                      NewAccount (..), NewAddress, NewWallet (..), V1 (..),
-                     Wallet, WalletId, WalletOperation (..), WalletUpdate,
-                     WalletType (..))
+                     Wallet, WalletId, WalletOperation (..), WalletType (..),
+                     WalletUpdate)
 import           Cardano.Wallet.Kernel.DB.Util.IxSet (IxSet)
 import qualified Cardano.Wallet.Kernel.DB.Util.IxSet as IxSet
 import           Cardano.Wallet.Kernel.Diffusion (WalletDiffusion (..))
@@ -155,7 +155,7 @@ pwlCreateWallet NewWallet{..} = do
     rethrowDuplicateMnemonic (e :: V0.WalletError) =
         case e of
             V0.DuplicateWalletError _ -> throwM WalletAlreadyExists
-            _ -> throwM e
+            _                         -> throwM e
 
 
 pwlGetWalletIds
