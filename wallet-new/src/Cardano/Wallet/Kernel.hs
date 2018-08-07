@@ -23,6 +23,8 @@ module Cardano.Wallet.Kernel (
   , getWalletSnapshot
     -- ** Pure getters acting on a DB snapshot
   , module Getters
+
+  , walletMeta
     -- * Active wallet
   , ActiveWallet -- opaque
   , bracketActiveWallet
@@ -38,7 +40,7 @@ import qualified Data.Map.Strict as Map
 
 import           System.Wlog (Severity (..))
 
-import           Data.Acid (AcidState)
+import           Data.Acid (AcidState, closeAcidState)
 import           Data.Acid.Advanced (query', update')
 import           Data.Acid.Memory (openMemoryState)
 
@@ -59,6 +61,7 @@ import           Cardano.Wallet.Kernel.DB.HdWallet
 import           Cardano.Wallet.Kernel.DB.InDb
 import           Cardano.Wallet.Kernel.DB.Resolved (ResolvedBlock)
 import           Cardano.Wallet.Kernel.DB.Spec (singletonPending)
+import           Cardano.Wallet.Kernel.DB.TxMeta
 import           Cardano.Wallet.Kernel.MonadDBReadAdaptor (MonadDBReadAdaptor,
                      withMonadDBRead)
 import           Cardano.Wallet.Kernel.Submission (Cancelled, WalletSubmission,
@@ -90,13 +93,31 @@ bracketPassiveWallet :: (MonadMask m, MonadIO m)
                      -> MonadDBReadAdaptor IO
                      -> (PassiveWallet -> m a) -> m a
 bracketPassiveWallet logMsg keystore rocksDB f =
-    bracket (liftIO $ openMemoryState defDB)
-            (\_ -> return ())
-            (\db ->
+    bracket (liftIO $ handlesOpen)
+            (liftIO . handlesClose)
+            (\ handles ->
                 bracket
-                  (liftIO $ initPassiveWallet logMsg keystore db rocksDB)
+                  (liftIO $ initPassiveWallet logMsg keystore handles rocksDB)
                   (\_ -> return ())
                   f)
+
+
+data WalletHandles = Handles {
+    hAcid :: AcidState DB,
+    hMeta :: MetaDBHandle
+}
+
+handlesOpen :: IO WalletHandles
+handlesOpen = do
+    db <- openMemoryState defDB
+    metadb <- openMetaDB ":memory:" -- TODO: Eventually :memory: should be replaced with the real path.
+    migrateMetaDB metadb
+    return $ Handles db metadb
+
+handlesClose :: WalletHandles -> IO ()
+handlesClose (Handles acid meta) = do
+    closeAcidState acid
+    closeMetaDB meta
 
 {-------------------------------------------------------------------------------
   Manage the Wallet's ESKs
@@ -112,11 +133,11 @@ withKeystore pw action = action (pw ^. walletKeystore)
 -- | Initialise Passive Wallet with empty Wallets collection
 initPassiveWallet :: (Severity -> Text -> IO ())
                   -> Keystore
-                  -> AcidState DB
+                  -> WalletHandles
                   -> MonadDBReadAdaptor IO
                   -> IO PassiveWallet
-initPassiveWallet logMessage keystore db rocksDB = do
-    return $ PassiveWallet logMessage keystore db rocksDB
+initPassiveWallet logMessage keystore Handles{..} rocksDB = do
+    return $ PassiveWallet logMessage keystore hAcid hMeta rocksDB
 
 -- | Initialize the Passive wallet (specified by the ESK) with the given Utxo
 --

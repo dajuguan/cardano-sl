@@ -17,15 +17,18 @@ import           Cardano.Wallet.WalletLayer.Error (WalletLayerError (..))
 import           Cardano.Wallet.WalletLayer.Types (ActiveWalletLayer (..),
                      CreateAccountError (..), CreateAddressError (..),
                      CreateWalletError, DeleteAccountError, GetAccountError,
-                     GetAccountsError, PassiveWalletLayer (..),
-                     UpdateAccountError)
+                     GetAccountsError, GetTxError (..),
+                     PassiveWalletLayer (..), UpdateAccountError)
 
+import           Cardano.Wallet.API.Request
+import           Cardano.Wallet.API.Response
 import           Cardano.Wallet.API.V1.Migration (migrate)
 import           Cardano.Wallet.API.V1.Migration.Types ()
 import           Cardano.Wallet.API.V1.Types (Account, AccountIndex,
                      AccountUpdate, Address, BackupPhrase (..),
-                     NewAccount (..), NewAddress, NewWallet (..), V1 (..),
-                     Wallet, WalletId, WalletOperation (..), WalletUpdate)
+                     NewAccount (..), NewAddress, NewWallet (..), Transaction,
+                     V1 (..), Wallet, WalletId, WalletOperation (..),
+                     WalletUpdate)
 import           Cardano.Wallet.Kernel.DB.Util.IxSet (IxSet)
 import qualified Cardano.Wallet.Kernel.DB.Util.IxSet as IxSet
 import           Cardano.Wallet.Kernel.Diffusion (WalletDiffusion (..))
@@ -89,6 +92,8 @@ bracketPassiveWallet =
 
         , _pwlCreateAddress  = pwlCreateAddress
         , _pwlGetAddresses   = pwlGetAddresses
+
+        , _pwlGetTransactions = pwlGetTransactions
 
         , _pwlApplyBlocks    = pwlApplyBlocks
         , _pwlRollbackBlocks = pwlRollbackBlocks
@@ -277,6 +282,19 @@ pwlCreateAddress = error "Not implemented!"
 
 pwlGetAddresses :: WalletId -> m [Address]
 pwlGetAddresses = error "Not implemented!"
+
+------------------------------------------------------------
+-- Transaction
+------------------------------------------------------------
+
+pwlGetTransactions :: Maybe WalletId
+                   -> Maybe AccountIndex
+                   -> Maybe (V1 Address)
+                   -> RequestParams
+                   -> FilterOperations Transaction
+                   -> SortOperations Transaction
+                   -> m (Either GetTxError (WalletResponse [Transaction]))
+pwlGetTransactions =  error "Not implemented!"
 
 ------------------------------------------------------------
 -- Apply Block

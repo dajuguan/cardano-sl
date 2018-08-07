@@ -127,6 +127,7 @@ library
                        -- * Useful for testing, especially in the fixture side.
                        Cardano.Wallet.WalletLayer.Kernel.Accounts
                        Cardano.Wallet.WalletLayer.Kernel.Addresses
+                       Cardano.Wallet.WalletLayer.Kernel.Transactions
                        Cardano.Wallet.WalletLayer.Kernel.Wallets
 
   other-modules:       Cardano.Wallet.WalletLayer.Kernel

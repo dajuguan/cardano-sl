@@ -48,6 +48,8 @@ bracketPassiveWallet =
         , _pwlCreateAddress  = \_     -> liftedGen
         , _pwlGetAddresses   = \_     -> liftedGen
 
+        , _pwlGetTransactions = \_ _ _ _ _ _ -> liftedGen
+
         , _pwlApplyBlocks    = \_     -> liftedGen
         , _pwlRollbackBlocks = \_     -> liftedGen
        }

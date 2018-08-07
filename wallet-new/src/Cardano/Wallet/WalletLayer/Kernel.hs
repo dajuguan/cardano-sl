@@ -19,6 +19,7 @@ import qualified Cardano.Wallet.Kernel as Kernel
 import qualified Cardano.Wallet.Kernel.Transactions as Kernel
 import qualified Cardano.Wallet.WalletLayer.Kernel.Accounts as Accounts
 import qualified Cardano.Wallet.WalletLayer.Kernel.Addresses as Addresses
+import qualified Cardano.Wallet.WalletLayer.Kernel.Transactions as Transactions
 import qualified Cardano.Wallet.WalletLayer.Kernel.Wallets as Wallets
 
 import qualified Cardano.Wallet.Kernel.DB.HdWallet as HD
@@ -98,7 +99,7 @@ bracketPassiveWallet logFunction keystore rocksDB f =
 
             , _pwlCreateAddress  = Addresses.createAddress wallet
             , _pwlGetAddresses   = error "Not implemented!"
-
+            , _pwlGetTransactions = Transactions.getTransactions wallet
             , _pwlApplyBlocks    = invokeIO . Actions.ApplyBlocks
             , _pwlRollbackBlocks = invokeIO . Actions.RollbackBlocks
             }
@@ -199,5 +200,3 @@ setupPayment grouping regulation payment = do
                  <$> (pmtDestinations payment)
 
     return (opts , accountId , payees)
-
-
